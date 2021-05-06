@@ -12,12 +12,9 @@
 					[ngClass]="{selected: isItemSelected(available.pick, item), disabled: disabled}"
 					[draggable]="!disabled && format.draggable" (dragstart)="drag($event, item, available)" (dragend)="dragEnd(available)"
 				>
-        <div class="form-check">
           <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [checked]="isItemSelected(available.pick, item)">
-          <label class="form-check-label" for="flexCheckChecked">
-            {{item._name}}
-          </label>
-        </div></li>
+
+            {{item._name}}</li>
 			</ul>
       </div>
       <div class="card-footer">

@@ -5,9 +5,11 @@
 </nav>
 
 <!-- Button trigger modal -->
+<div class="mainPageView">
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
   Open List
 </button>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -18,8 +20,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <!-- Method 1
         <app-action [sort]="keepSorted" [source]="source" [key]="key" [display]="display"
         [(destination)]="confirmed" height="265px" [format]="format" [disabled]="disabled"></app-action>
+        Method 2 -->
+        <app-list-view  ></app-list-view>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -3,3 +3,11 @@
   height: '60vh';
 
 }
+
+.mainPageView{
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top:50%;
+}
