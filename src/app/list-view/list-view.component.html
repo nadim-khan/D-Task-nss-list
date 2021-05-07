@@ -6,7 +6,8 @@
     <div class="card-header">List 1</div>
     <div class="card-body">
       <ul (drop)="drop($event,1)"
-      (dragover)="allowDrop($event,1)">
+        (dragover)="allowDrop($event,1)" [class.dropZone]="dragVal===2 && !dropped">
+
         <li
           *ngFor="let file of unselectedFiles"
           (click)="togglePendingSelection( file )"
@@ -34,7 +35,7 @@
     <div class="card-header">List 2</div>
     <div class="card-body">
       <ul (drop)="drop($event,2)"
-          (dragover)="allowDrop($event,2)">
+          (dragover)="allowDrop($event,2)" [class.dropZone]="dragVal===1 && !dropped">
         <li
           *ngFor="let file of selectedFiles"
           (click)="togglePendingSelection( file )"

@@ -1,8 +1,6 @@
 import { Component } from "@angular/core";
 import { File } from "./data";
 import { files as sampleFiles } from "./data";
-
-
 interface PendingSelection {
 	[ key: number ]: boolean;
 }
@@ -20,8 +18,7 @@ export class ListViewComponent {
 	unselectedFiles: File[];
 
   dragVal:number = 1;
-  allowVal:number = 1;
-  dragLeaveVal:number =1;
+  dropped:Boolean = true;
 
 	constructor() {
 		this.files = sampleFiles;
@@ -106,9 +103,11 @@ export class ListViewComponent {
     if(ev.dataTransfer && ev.target)
     //console.log('drag',listVal,' : ',ev.dataTransfer)
     this.dragVal = listVal;
+    this.dropped = false;
   }
 
   drop(ev:DragEvent,listVal:number) {
+
     if(ev.dataTransfer){
       // console.log('drop',listVal,' : ',ev.dataTransfer)
       // console.log('pending list',this.pendingSelection)
@@ -118,6 +117,7 @@ export class ListViewComponent {
 
   }
   checkDragDropAndMove(dragVal:number,dropVal:number){
+    this.dropped = true;
     //console.log(dragVal,dropVal)
     if(dragVal===1 && dropVal===2) {
       //console.log('from 1 to 2 dropped')

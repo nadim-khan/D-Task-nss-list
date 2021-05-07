@@ -47,10 +47,14 @@
  }
 
  ul{
-   height: 50vh;
+    min-height:44vh;
    list-style-type: none;
    margin: 0;
    padding: 0 0 1px 0;
+ }
+ .dropZone{
+   border:1px dashed black;
+   background-color: #a9dcf5;
  }
  li {
    margin:0.2rem;
