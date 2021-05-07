@@ -47,10 +47,9 @@
  }
 
  ul{
-    min-height:44vh;
+    min-height:42vh;
    list-style-type: none;
    margin: 0;
-   padding: 0 0 1px 0;
  }
  .dropZone{
    border:1px dashed black;
@@ -59,9 +58,10 @@
  li {
    margin:0.2rem;
    padding:0.3rem 1rem;
+   border-radius:0.3rem;
  }
  li:hover {
-  background-color: #cde5f1;
+  background-color: #d9ebf3;
 }
 .selected {
    background-color: #c1e6f8;

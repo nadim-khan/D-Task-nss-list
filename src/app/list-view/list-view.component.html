@@ -15,8 +15,13 @@
           [draggable]="true" (dragstart)="drag($event,1)">
 
           <div class="details">
-              <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="pendingSelection[ file.id ]" [checked]='pendingSelection[ file.id ]' aria-label="..."> {{ file.fileName }}
-
+              <input 
+                class="form-check-input"
+                type="checkbox"
+                id="checkboxNoLabel"
+                value="pendingSelection[ file.id ]"
+                [checked]='pendingSelection[ file.id ]'> 
+                {{ file.fileName }}
           </div>
 
         </li>
@@ -24,7 +29,7 @@
     </div>
     <div class="card-footer">
       <button [disabled] = "!unselectedFiles.length" class="btn btn-primary" (click)="moveAllFiles('add')"> => </button>
-      <button class="btn btn-primary" (click)="addToselectedFiles()"> -> </button>
+      <button [disabled] = "!unselectedFiles.length" class="btn btn-primary" (click)="addToselectedFiles()"> -> </button>
     </div>
   </div>
 </div>
@@ -42,7 +47,13 @@
           [class.selected]="pendingSelection[ file.id ]"
           [draggable]="true" (dragstart)="drag($event,2)">
           <div class="details">
-              <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="pendingSelection[ file.id ]" [checked]='pendingSelection[ file.id ]' aria-label="..."> {{ file.fileName }}
+              <input 
+                class="form-check-input"
+                type="checkbox"
+                id="checkboxNoLabel"
+                value="pendingSelection[ file.id ]"
+                [checked]='pendingSelection[ file.id ]'> 
+                {{ file.fileName }}
 
           </div>
 
@@ -50,7 +61,7 @@
       </ul>
     </div>
     <div class="card-footer">
-      <button class="btn btn-danger" (click)="removeFromselectedFiles()"> <- </button>
+      <button [disabled] = "!selectedFiles.length" class="btn btn-danger" (click)="removeFromselectedFiles()"> <- </button>
       <button [disabled] = "!selectedFiles.length" class="btn btn-danger" (click)="moveAllFiles('remove')"> <= </button>
     </div>
   </div>

@@ -22,15 +22,15 @@ export class ListViewComponent {
 
 	constructor() {
 		this.files = sampleFiles;
-		this.unselectedFiles = this.files.sort((a, b) => (a.fileName > b.fileName) ? 1 : -1);
+		this.unselectedFiles = this.files;
     //console.log('this.unselectedFiles : ',this.unselectedFiles)
 		this.selectedFiles = [];
 		this.pendingSelection = Object.create( null );
 
 	}
 
+ // add the selected file or files from the selected files collection.
 	public addToselectedFiles( file?: File ) : void {
-
 		var changeFiles = ( file )? [ file ]: this.getPendingSelectionFromCollection( this.unselectedFiles );
 		this.pendingSelection = Object.create( null );
 		this.unselectedFiles = this.removeFilesFromCollection( this.unselectedFiles, changeFiles );
@@ -38,6 +38,47 @@ export class ListViewComponent {
 
 	}
 
+  // remove the selected file or files from the selected files collection.
+	public removeFromselectedFiles( file?: File ) : void {
+		var changeFiles = ( file ) ? [ file ] : this.getPendingSelectionFromCollection( this.selectedFiles );
+		this.pendingSelection = Object.create( null );
+		this.selectedFiles = this.removeFilesFromCollection( this.selectedFiles, changeFiles );
+		this.unselectedFiles = changeFiles
+			.concat( this.unselectedFiles );
+	}
+
+
+  // gather the files in the given collection that are part of the current pending selection.
+	private getPendingSelectionFromCollection( collection: File[] ) : File[] {
+		var selectionFromCollection = collection.filter(
+			( file ) => {
+				return( file.id in this.pendingSelection );
+			}
+		);
+		return( selectionFromCollection );
+	}
+
+  
+	// remove the given files from the given collection. Returns a new collection.
+	private removeFilesFromCollection(collection: File[],filesToRemove: File[]) : File [] {
+		var collectionWithoutFiles = collection.filter(
+			( file ) => {
+				return( ! filesToRemove.includes( file ) );
+			}
+		);
+		return( collectionWithoutFiles );
+	}
+
+  
+	//toggle the pending selection for the given file.
+	public togglePendingSelection( file: File ) : void {
+		this.pendingSelection[ file.id ] = ! this.pendingSelection[ file.id ];
+    if(! this.pendingSelection[ file.id ]) {
+      delete this.pendingSelection[ file.id ]
+    }
+	}
+
+  // Move all files from or to
   moveAllFiles(actionType:string) {
     let arr = this.selectedFiles.concat(this.unselectedFiles);
     arr= arr.filter((item,index)=>{
@@ -54,46 +95,7 @@ export class ListViewComponent {
 
   }
 
-
-	// remove the selected file or files from the selected files collection.
-	public removeFromselectedFiles( file?: File ) : void {
-		var changeFiles = ( file ) ? [ file ] : this.getPendingSelectionFromCollection( this.selectedFiles );
-		this.pendingSelection = Object.create( null );
-		this.selectedFiles = this.removeFilesFromCollection( this.selectedFiles, changeFiles );
-		this.unselectedFiles = changeFiles
-			.concat( this.unselectedFiles );
-	}
-
-	//toggle the pending selection for the given file.
-	public togglePendingSelection( file: File ) : void {
-		this.pendingSelection[ file.id ] = ! this.pendingSelection[ file.id ];
-    if(! this.pendingSelection[ file.id ]) {
-      delete this.pendingSelection[ file.id ]
-    }
-	}
-
-	// gather the files in the given collection that are part of the current pending
-	// selection.
-	private getPendingSelectionFromCollection( collection: File[] ) : File[] {
-		var selectionFromCollection = collection.filter(
-			( file ) => {
-				return( file.id in this.pendingSelection );
-			}
-		);
-		return( selectionFromCollection );
-	}
-
-
-	// remove the given files from the given collection. Returns a new collection.
-	private removeFilesFromCollection(collection: File[],filesToRemove: File[]) : File [] {
-		var collectionWithoutFiles = collection.filter(
-			( file ) => {
-				return( ! filesToRemove.includes( file ) );
-			}
-		);
-		return( collectionWithoutFiles );
-	}
-
+  // Drag & Drop action 
   allowDrop(ev:DragEvent,listVal:number) {
     ev.preventDefault();
     //console.log('allowDrop',listVal)
