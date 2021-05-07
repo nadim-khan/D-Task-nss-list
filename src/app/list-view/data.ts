@@ -6,7 +6,6 @@ export interface File {
 
 var id = 0;
 
-// NOTE: Names generated using https://blog.reedsy.com/character-name-generator/language/english/
 export var files: File[] = [
 	{
 		id: ++id,
