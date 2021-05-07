@@ -10,6 +10,14 @@
    align-items: center;
    margin:2rem;
  }
+ .btn-close{
+  position: absolute;
+  right: 15px;
+  top: 5px;
+ }
+ .row{
+   margin-top:15px;
+ }
 
  .card{
    max-height: 70vh;

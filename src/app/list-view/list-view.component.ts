@@ -12,22 +12,30 @@ interface PendingSelection {
 })
 export class ListViewComponent {
 
-	files: File[];
-	pendingSelection: PendingSelection;
-	selectedFiles: File[];
-	unselectedFiles: File[];
+	files: File[] = [];
+	pendingSelection: PendingSelection = [];
+	selectedFiles: File[] = [];
+	unselectedFiles: File[] = [];
 
-  dragVal:number = 1;
-  dropped:Boolean = true;
+  dragVal:number| undefined ;
+  dropped:Boolean | undefined;
 
 	constructor() {
-		this.files = sampleFiles;
+		this.doReset()
+	}
+
+  doReset(){
+    this.files = sampleFiles;
 		this.unselectedFiles = this.files;
+    this.dropped = undefined;
+    this.dragVal = undefined;
     //console.log('this.unselectedFiles : ',this.unselectedFiles)
 		this.selectedFiles = [];
+    this.selectedFiles.push(this.files[10]);
+    this.selectedFiles.push(this.files[11])
+    this.selectedFiles.push(this.files[12])
 		this.pendingSelection = Object.create( null );
-
-	}
+  }
 
  // add the selected file or files from the selected files collection.
 	public addToselectedFiles( file?: File ) : void {
@@ -110,7 +118,7 @@ export class ListViewComponent {
 
   drop(ev:DragEvent,listVal:number) {
 
-    if(ev.dataTransfer){
+    if(ev.dataTransfer && this.dragVal){
       // console.log('drop',listVal,' : ',ev.dataTransfer)
       // console.log('pending list',this.pendingSelection)
       ev.preventDefault();
