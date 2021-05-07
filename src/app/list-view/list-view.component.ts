@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { Contact } from "./data";
-import { contacts as sampleContacts } from "./data";
+import { File } from "./data";
+import { files as sampleFiles } from "./data";
 
 
 interface PendingSelection {
@@ -14,111 +14,117 @@ interface PendingSelection {
 })
 export class ListViewComponent {
 
-	public contacts: Contact[];
-	public pendingSelection: PendingSelection;
-	public selectedContacts: Contact[];
-	public unselectedContacts: Contact[];
+	files: File[];
+	pendingSelection: PendingSelection;
+	selectedFiles: File[];
+	unselectedFiles: File[];
+
+  dragVal:number = 1;
+  allowVal:number = 1;
+  dragLeaveVal:number =1;
 
 	constructor() {
-		this.contacts = sampleContacts;
-		this.unselectedContacts = this.contacts.slice().sort( this.sortContactOperator );
-    console.log('this.unselectedContacts : ',this.unselectedContacts)
-		this.selectedContacts = [];
+		this.files = sampleFiles;
+		this.unselectedFiles = this.files.sort((a, b) => (a.fileName > b.fileName) ? 1 : -1);
+    //console.log('this.unselectedFiles : ',this.unselectedFiles)
+		this.selectedFiles = [];
 		this.pendingSelection = Object.create( null );
 
 	}
 
-	public addToSelectedContacts( contact?: Contact ) : void {
+	public addToselectedFiles( file?: File ) : void {
 
-		var changeContacts = ( contact )? [ contact ]: this.getPendingSelectionFromCollection( this.unselectedContacts );
+		var changeFiles = ( file )? [ file ]: this.getPendingSelectionFromCollection( this.unselectedFiles );
 		this.pendingSelection = Object.create( null );
-		this.unselectedContacts = this.removeContactsFromCollection( this.unselectedContacts, changeContacts );
-		this.selectedContacts = changeContacts.concat( this.selectedContacts );
+		this.unselectedFiles = this.removeFilesFromCollection( this.unselectedFiles, changeFiles );
+		this.selectedFiles = changeFiles.concat( this.selectedFiles );
 
 	}
 
-  moveAllContacts(actionType:string) {
-    let arr = this.selectedContacts.concat(this.unselectedContacts);
+  moveAllFiles(actionType:string) {
+    let arr = this.selectedFiles.concat(this.unselectedFiles);
     arr= arr.filter((item,index)=>{
       return (arr.indexOf(item) == index)
     })
     if(actionType === 'add') {
-      this.selectedContacts = arr;
-      this.unselectedContacts = []
+      this.selectedFiles = arr;
+      this.unselectedFiles = []
     } else {
-      this.unselectedContacts = arr;
-      this.selectedContacts = []
+      this.unselectedFiles = arr;
+      this.selectedFiles = []
     }
     this.pendingSelection = Object.create( null );
 
   }
 
 
-	// I remove the selected contact or contacts from the selected contacts collection.
-	public removeFromSelectedContacts( contact?: Contact ) : void {
-		var changeContacts = ( contact ) ? [ contact ] : this.getPendingSelectionFromCollection( this.selectedContacts );
+	// remove the selected file or files from the selected files collection.
+	public removeFromselectedFiles( file?: File ) : void {
+		var changeFiles = ( file ) ? [ file ] : this.getPendingSelectionFromCollection( this.selectedFiles );
 		this.pendingSelection = Object.create( null );
-		this.selectedContacts = this.removeContactsFromCollection( this.selectedContacts, changeContacts );
-		this.unselectedContacts = changeContacts
-			.concat( this.unselectedContacts )
-			.sort( this.sortContactOperator );
+		this.selectedFiles = this.removeFilesFromCollection( this.selectedFiles, changeFiles );
+		this.unselectedFiles = changeFiles
+			.concat( this.unselectedFiles );
 	}
 
-	//toggle the pending selection for the given contact.
-	public togglePendingSelection( contact: Contact ) : void {
-		this.pendingSelection[ contact.id ] = ! this.pendingSelection[ contact.id ];
-    if(! this.pendingSelection[ contact.id ]) {
-      delete this.pendingSelection[ contact.id ]
+	//toggle the pending selection for the given file.
+	public togglePendingSelection( file: File ) : void {
+		this.pendingSelection[ file.id ] = ! this.pendingSelection[ file.id ];
+    if(! this.pendingSelection[ file.id ]) {
+      delete this.pendingSelection[ file.id ]
     }
 	}
 
-	// gather the contacts in the given collection that are part of the current pending
+	// gather the files in the given collection that are part of the current pending
 	// selection.
-	private getPendingSelectionFromCollection( collection: Contact[] ) : Contact[] {
+	private getPendingSelectionFromCollection( collection: File[] ) : File[] {
 		var selectionFromCollection = collection.filter(
-			( contact ) => {
-				return( contact.id in this.pendingSelection );
+			( file ) => {
+				return( file.id in this.pendingSelection );
 			}
 		);
 		return( selectionFromCollection );
 	}
 
 
-	// remove the given contacts from the given collection. Returns a new collection.
-	private removeContactsFromCollection(
-		collection: Contact[],
-		contactsToRemove: Contact[]
-		) : Contact[] {
-		var collectionWithoutContacts = collection.filter(
-			( contact ) => {
-				return( ! contactsToRemove.includes( contact ) );
+	// remove the given files from the given collection. Returns a new collection.
+	private removeFilesFromCollection(collection: File[],filesToRemove: File[]) : File [] {
+		var collectionWithoutFiles = collection.filter(
+			( file ) => {
+				return( ! filesToRemove.includes( file ) );
 			}
 		);
-		return( collectionWithoutContacts );
+		return( collectionWithoutFiles );
 	}
 
-
-	// Sort operator for the contacts collection.
-	private sortContactOperator( a: Contact, b: Contact ) : number {
-		return( a.name.localeCompare( b.name ) );
-	}
-
-  allowDrop(event:DragEvent,list:string){
-    console.log('allowDrop',list)
+  allowDrop(ev:DragEvent,listVal:number) {
+    ev.preventDefault();
+    //console.log('allowDrop',listVal)
   }
 
-  drop(event:DragEvent,list:string){
-    console.log('drop',list)
+  drag(ev:DragEvent,listVal:number) {
+    if(ev.dataTransfer && ev.target)
+    //console.log('drag',listVal,' : ',ev.dataTransfer)
+    this.dragVal = listVal;
   }
 
-  dragLeave(list:string){
-    console.log('dragLeave')
-  }
-  drag(event:DragEvent,list:string){
-    console.log('drag',list)
-  }
-  dragEnd(list:string){
-    console.log('dragLeave',list)
-  }
+  drop(ev:DragEvent,listVal:number) {
+    if(ev.dataTransfer){
+      // console.log('drop',listVal,' : ',ev.dataTransfer)
+      // console.log('pending list',this.pendingSelection)
+      ev.preventDefault();
+      this.checkDragDropAndMove(this.dragVal,listVal)
+    }
 
+  }
+  checkDragDropAndMove(dragVal:number,dropVal:number){
+    //console.log(dragVal,dropVal)
+    if(dragVal===1 && dropVal===2) {
+      //console.log('from 1 to 2 dropped')
+      this.addToselectedFiles();
+    } else if (dragVal===2 && dropVal===1){
+      //console.log('from 2 to 1 dropped')
+      this.removeFromselectedFiles();
+    }
+  }
 }

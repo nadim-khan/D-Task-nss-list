@@ -20,10 +20,6 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <!-- Method 1
-        <app-action [sort]="keepSorted" [source]="source" [key]="key" [display]="display"
-        [(destination)]="confirmed" height="265px" [format]="format" [disabled]="disabled"></app-action>
-        Method 2 -->
         <app-list-view  ></app-list-view>
       </div>
       <div class="modal-footer">
@@ -31,4 +27,25 @@
       </div>
     </div>
   </div>
+</div>
+
+
+
+<h2>Drag and Drop</h2>
+<div  id="div1"
+      (drop)="drop($event)"
+      (dragover)="allowDrop($event)">
+
+      <img
+      src="https://images.pexels.com/photos/658687/pexels-photo-658687.jpeg?auto=compress&cs=tinysrgb&h=350"
+      draggable="true"
+      (dragstart)="drag($event)"
+      id="drag1"
+      width="88"
+      height="31">
+</div>
+
+<div id="div2"
+  (drop)="drop($event)"
+  (dragover)="allowDrop($event)">
 </div>

@@ -5,15 +5,16 @@
   <div class="card">
     <div class="card-header">List 1</div>
     <div class="card-body">
-      <ul (drop)="drop($event,'1')" (dragover)="allowDrop($event,'1')" (dragleave)="dragLeave('1')">
+      <ul (drop)="drop($event,1)"
+      (dragover)="allowDrop($event,1)">
         <li
-          *ngFor="let contact of unselectedContacts"
-          (click)="togglePendingSelection( contact )"
-          [class.selected]="pendingSelection[ contact.id ]"
-          [draggable]="true" (dragstart)="drag($event,'1')" (dragend)="dragEnd('1')">
+          *ngFor="let file of unselectedFiles"
+          (click)="togglePendingSelection( file )"
+          [class.selected]="pendingSelection[ file.id ]"
+          [draggable]="true" (dragstart)="drag($event,1)">
 
           <div class="details">
-              <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="pendingSelection[ contact.id ]" [checked]='pendingSelection[ contact.id ]' aria-label="..."> {{ contact.name }}
+              <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="pendingSelection[ file.id ]" [checked]='pendingSelection[ file.id ]' aria-label="..."> {{ file.fileName }}
 
           </div>
 
@@ -21,8 +22,8 @@
       </ul>
     </div>
     <div class="card-footer">
-      <button [disabled] = "!unselectedContacts.length" class="btn btn-primary" (click)="moveAllContacts('add')"> => </button>
-      <button class="btn btn-primary" (click)="addToSelectedContacts()"> -> </button>
+      <button [disabled] = "!unselectedFiles.length" class="btn btn-primary" (click)="moveAllFiles('add')"> => </button>
+      <button class="btn btn-primary" (click)="addToselectedFiles()"> -> </button>
     </div>
   </div>
 </div>
@@ -32,14 +33,15 @@
   <div class="card">
     <div class="card-header">List 2</div>
     <div class="card-body">
-      <ul (drop)="drop($event,'2')" (dragover)="allowDrop($event,'2')" (dragleave)="dragLeave('2')">
+      <ul (drop)="drop($event,2)"
+          (dragover)="allowDrop($event,2)">
         <li
-          *ngFor="let contact of selectedContacts"
-          (click)="togglePendingSelection( contact )"
-          [class.selected]="pendingSelection[ contact.id ]"
-          [draggable]="true" (dragstart)="drag($event,'2')" (dragend)="dragEnd('2')">
+          *ngFor="let file of selectedFiles"
+          (click)="togglePendingSelection( file )"
+          [class.selected]="pendingSelection[ file.id ]"
+          [draggable]="true" (dragstart)="drag($event,2)">
           <div class="details">
-              <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="pendingSelection[ contact.id ]" [checked]='pendingSelection[ contact.id ]' aria-label="..."> {{ contact.name }}
+              <input class="form-check-input" type="checkbox" id="checkboxNoLabel" value="pendingSelection[ file.id ]" [checked]='pendingSelection[ file.id ]' aria-label="..."> {{ file.fileName }}
 
           </div>
 
@@ -47,8 +49,8 @@
       </ul>
     </div>
     <div class="card-footer">
-      <button class="btn btn-danger" (click)="removeFromSelectedContacts()"> <- </button>
-      <button [disabled] = "!selectedContacts.length" class="btn btn-danger" (click)="moveAllContacts('remove')"> <= </button>
+      <button class="btn btn-danger" (click)="removeFromselectedFiles()"> <- </button>
+      <button [disabled] = "!selectedFiles.length" class="btn btn-danger" (click)="moveAllFiles('remove')"> <= </button>
     </div>
   </div>
 </div>
